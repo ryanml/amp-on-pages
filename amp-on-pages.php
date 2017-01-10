@@ -11,59 +11,15 @@
  * Version:     0.0.1
  */
 
-include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+define( 'AOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+include_once( AOP_PLUGIN_DIR . 'includes/class-amp-on-pages.php');
+
+// This plugin is dependent on the AMP plugin. 
 if ( ! is_plugin_active( 'amp/amp.php' ) )
     wp_die( __( 'Error: You must have the Amp plugin installed.' ) ); 
 
-
-class Amp_On_Pages {
-
-    public function __construct() {
-
-        add_action(
-            'amp_init',
-            [
-                $this,
-                'addAmpToPages'
-            ]
-        );
-
-        add_action(
-            'init',
-            [
-                $this,
-                'ampPageRewrite'
-            ]
-        );
-
-    }
-
-    public function addAmpToPages() {
-
-        add_post_type_support( 'page', AMP_QUERY_VAR );
-
-    }
-
-    public function ampPageRewrite() {
-
-        $exp_uri = explode( '/amp', $_SERVER['REQUEST_URI'] );
-
-        $post_id = url_to_postid( $exp_uri[0] );
-
-        $post_type = get_post_type( $post_id );
-
-        if ( $post_type !== 'page' )
-            return;
-
-        $redirect = "index.php?page_id={$post_id}&amp=1";
-
-        add_rewrite_rule( '(.+)/amp', $redirect, 'top' );   
-
-        flush_rewrite_rules();
-    }
-
-}
-
-new Amp_On_Pages();
+// Create new instance of Amp_On_Pages class
+$amp_on_pages = new Amp_On_Pages();
 ?>
