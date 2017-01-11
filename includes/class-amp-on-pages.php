@@ -75,7 +75,7 @@ class Amp_On_Pages {
         $redirect = "index.php?page_id={$post_id}&amp=1";
 
         // Redirecting to redirect when /amp is appended to the path
-        add_rewrite_rule( '(.+)/amp', $redirect, 'top' );   
+        add_rewrite_rule( '(.+)/amp$', $redirect, 'top' );   
 
         // Flush rewrite rules after adding one. (soft flush)
         flush_rewrite_rules(false);
