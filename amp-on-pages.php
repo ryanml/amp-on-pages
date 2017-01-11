@@ -22,4 +22,8 @@ if ( ! is_plugin_active( 'amp/amp.php' ) )
 
 // Create new instance of Amp_On_Pages class
 $amp_on_pages = new Amp_On_Pages();
+
+// If the Glue for Yoast SEO & AMP plugin is active, we need to enable pages as supported post types.
+if ( is_plugin_active( 'glue-for-yoast-seo-amp/yoastseo-amp.php' ) )
+    $amp_on_pages->enable_pages_in_glue();
 ?>

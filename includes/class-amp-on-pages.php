@@ -81,5 +81,43 @@ class Amp_On_Pages {
         flush_rewrite_rules(false);
     }
 
+    /**
+     * Enables page as a supported post type in the Glue for Yoast SEO & AMP plugin. 
+     *
+     * @since 0.0.1
+     * @access public
+     */
+    public function enable_pages_in_glue() {
+        // Get wordpress database global object
+        global $wpdb;
+
+        // Key declarations
+        $option_name = 'wpseo_amp';
+        $page_key = 'post_types-page-amp';
+        $table = $wpdb->prefix . 'options';
+
+        // Query options table for yoast meta amp options
+        $query_results = $wpdb->get_results(
+            "SELECT option_value FROM {$table} WHERE option_name='{$option_name}'"
+        );
+        // Unserialize results
+        $amp_options = unserialize( $query_results[0]->option_value );
+        
+        // If pages are already enabled, return
+        if ( $amp_options[$page_key] === 'on' )
+            return;
+
+        // Set pages to on (enabled)
+        $amp_options[$page_key] = 'on';
+        // Serialize new amp options
+        $amp_options = serialize( $amp_options );
+
+        // Update table with new options
+        $wpdb->query(
+            "UPDATE {$table} SET option_value='{$amp_options}' WHERE option_name='{$option_name}'"
+        );
+
+    }
+
 }
 ?>
