@@ -19,7 +19,7 @@ include_once( AOP_PLUGIN_DIR . 'includes/class-amp-on-pages.php');
 function amp_inactive_error_message() {
 ?>
     <div class='notice notice-error is-dismissible'>
-        <p>Error: You must have the Amp plugin activated in order to use Amp On Pages.</p>
+        <p>Error: You must have the Amp plugin activated in order to use Amp on Pages.</p>
     </div>
 <?php
 }
