@@ -16,9 +16,17 @@ define( 'AOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 include_once( AOP_PLUGIN_DIR . 'includes/class-amp-on-pages.php');
 
+function amp_inactive_error_message() {
+?>
+    <div class='notice notice-error is-dismissible'>
+        <p>Error: You must have the Amp plugin activated in order to use Amp On Pages.</p>
+    </div>
+<?php
+}
+
 // This plugin is dependent on the AMP plugin. 
 if ( ! is_plugin_active( 'amp/amp.php' ) )
-    wp_die( __( 'Error: You must have the Amp plugin installed.' ) ); 
+    add_action( 'admin_notices', 'amp_inactive_error_message' );
 
 // Create new instance of Amp_On_Pages class
 $amp_on_pages = new Amp_On_Pages();
